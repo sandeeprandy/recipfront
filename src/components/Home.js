@@ -37,7 +37,7 @@ function Home() {
           </div>
         ))}
       </div> 
-      <button className="signup-button" > <Link to="/"></Link> sign up</button>
+      <button className="signup-button" > <Link to="/">sign up</Link></button>
     </div>
   );
 }
