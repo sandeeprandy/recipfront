@@ -37,7 +37,7 @@ function Home() {
           </div>
         ))}
       </div> 
-      <p className="login-text"> <Link to="/">sign up</Link></p>
+      <p className="login-text"> <Link to="/">sign out</Link></p>
     </div>
   );
 }
