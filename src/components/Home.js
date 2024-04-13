@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 import './Home.css'; 
 
@@ -34,7 +36,8 @@ function Home() {
             </div>
           </div>
         ))}
-      </div>
+      </div> 
+      <button className="signup-button" > <Link to="/"></Link> sign up</button>
     </div>
   );
 }
