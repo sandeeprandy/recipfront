@@ -12,7 +12,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://recipback.onrender.com/login', { email, password });
+      const response = await axios.post('https://recipback.onrender.com/api/auth/login', { email, password });
       console.log('Login successful');
       // Assuming response contains the username
       setUsername(response.data.username);
