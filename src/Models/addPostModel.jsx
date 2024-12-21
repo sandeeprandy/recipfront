@@ -82,11 +82,11 @@ const AddPostModal = ({ open, onClose }) => {
 
     try {
       const response = await axios.post(
-        "https://recipback.onrender.com/api/addPost",
+        "https://recipback.onrender.com/api/posts/addPost",
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'application/json',
           },
         }
       );
