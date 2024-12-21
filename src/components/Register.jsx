@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, Grid, TextField, Typography, Card } from "@mui/material";
 import { motion } from "framer-motion";
 import { useForm, Controller } from "react-hook-form";
@@ -35,7 +35,7 @@ const RegisterPage = () => {
   const {
     control,
     handleSubmit,
-    watch,
+   
     setError,
     formState: { errors },
   } = useForm({

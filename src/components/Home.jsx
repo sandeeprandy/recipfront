@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import NewsFeed from "./NewsFeed";
