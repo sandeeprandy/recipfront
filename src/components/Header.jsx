@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -7,14 +7,15 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  TextField,
   Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import AddPostModal from "../Models/addPostModel";
 
 const Header = ({ handleDrawerToggle }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,58 +25,55 @@ const Header = ({ handleDrawerToggle }) => {
     setAnchorEl(null);
   };
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <AppBar position="fixed" sx={{ background: "#1c1c1c" }}>
-      <Toolbar>
-        {/* Drawer Toggle Button */}
-        <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2 }}>
-          <MenuIcon />
-        </IconButton>
+    <>
+      <AppBar position="fixed" sx={{ background: "#1c1c1c" }}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
 
-        {/* Title */}
-        <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-          My App
-        </Typography>
+          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
+            My App
+          </Typography>
 
-        {/* Profile Avatar */}
-        <Tooltip title="Add Post">
-  <IconButton color="inherit" sx={{ ml: 1 }}>
-    <PostAddIcon sx={{ fontSize: 40 }} />
-  </IconButton>
-</Tooltip>
+          <Tooltip title="Add Post">
+            <IconButton color="inherit" sx={{ ml: 1 }} onClick={handleModalOpen}>
+              <PostAddIcon sx={{ fontSize: 40 }} />
+            </IconButton>
+          </Tooltip>
 
-        {/* Input Box for Pin Code */}
-        <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Enter pin code"
-          sx={{
-            backgroundColor: "white",
-            borderRadius: 1,
-            marginLeft: 1,
-            marginRight: 2,
-            width: 150,
-          }}
-        />
+          <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
+            <Avatar src="/profile-pic.jpg" alt="Profile" />
+          </IconButton>
 
-        {/* Tooltip with Add Post Icon */}
-      
-        <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
-          <Avatar src="/profile-pic.jpg" alt="Profile" />
-        </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            sx={{ mt: "45px" }}
+          >
+            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+          </Menu>
+        </Toolbar>
+      </AppBar>
 
-        {/* Profile Menu */}
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-          sx={{ mt: "45px" }}
-        >
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-        </Menu>
-      </Toolbar>
-    </AppBar>
+      <AddPostModal open={isModalOpen} onClose={handleModalClose} />
+    </>
   );
 };
 
