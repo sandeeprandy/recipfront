@@ -45,7 +45,7 @@ const RegisterPage = () => {
   const handleRegister = async (data) => {
     try {
       const response = await axios.post(
-        "https://recipback.onrender.com/register",
+        "https://recipback.onrender.com/api/auth/register",
         data
       );
       console.log(response.data.message);
@@ -170,7 +170,7 @@ const RegisterPage = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Controller
-                  name="illaka"
+                  name="ilaaka"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
