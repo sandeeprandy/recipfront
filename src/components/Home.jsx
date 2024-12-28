@@ -8,16 +8,25 @@ import NewsFeed from "./NewsFeed";
 import Profile from "./Profile";
 import Settings from "./Settings";
 
+
 const HomePage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState("newsfeed");
+  const [userPincode , setUserPincode]=useState("503225")
+  
+  const userinfo = JSON.parse(localStorage.getItem("userinfo"));
+
+ 
+ 
 
   const dispatch = useDispatch();
   const { feed, profile, loading } = useSelector((state) => state.user);
+  
 
   useEffect(() => {
+    setUserPincode(userinfo?.user[0].pin_code)
     if (currentPage === "newsfeed") {
-      dispatch(getUserFeed());
+      dispatch(getUserFeed(userPincode));
     } else if (currentPage === "profile") {
       dispatch(getUserProfile());
     }

@@ -1,14 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchUserFeed, fetchUserProfile } from "../services/userService";
 
+export const getUserFeed = createAsyncThunk(
+  "user/getUserFeed",
+  async (pincode, ilaaka) => {
+    return await fetchUserFeed(pincode, ilaaka);
+  }
+);
 
-export const getUserFeed = createAsyncThunk("user/getUserFeed", async () => {
-  return await fetchUserFeed();
-});
-
-export const getUserProfile = createAsyncThunk("user/getUserProfile", async () => {
-  return await fetchUserProfile();
-});
+export const getUserProfile = createAsyncThunk(
+  "user/getUserProfile",
+  async () => {
+    return await fetchUserProfile();
+  }
+);
 
 const userSlice = createSlice({
   name: "user",

@@ -23,6 +23,8 @@ const validationSchema = Yup.object().shape({
 const AddPostModal = ({ open, onClose }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL
+ 
+  const userinfo = JSON.parse(localStorage.getItem("userinfo"));
 
   const {
     control,
@@ -78,7 +80,9 @@ const AddPostModal = ({ open, onClose }) => {
     formData.append("ilaakaName", data.ilaakaName);
     formData.append("pinCode", data.pinCode);
     formData.append("description", data.description);
-    formData.append("image", imageUrl); // Use the image URL instead of the binary data
+    formData.append("image", imageUrl); 
+    formData.append("firstName " , userinfo?.user[0].first_name )
+    formData.append("lastName", userinfo?.user[0].last_name)
 
     try {
       const response = await axios.post(

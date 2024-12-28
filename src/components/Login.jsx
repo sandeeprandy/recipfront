@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
+import { saveUserProfile } from "../slices/userSlices";
+import { useDispatch } from "react-redux";
 
 function Login() {
   const navigate = useNavigate();
@@ -9,6 +11,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
@@ -18,7 +21,8 @@ function Login() {
       );
       console.log("Login successful");
       // Assuming response contains the username
-      setUsername(response.data.username);
+     
+      localStorage.setItem("userinfo", JSON.stringify(response.data));
       navigate("/home");
     } catch (error) {
       setError("Invalid email or password.");

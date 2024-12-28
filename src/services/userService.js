@@ -1,9 +1,23 @@
+import axiosInstance from "../axiosInstance";
 
-import axiosInstance from '../axiosInstance';
+export const fetchUserFeed = async (pincode, ilaakaName) => {
+  try {
+    console.log("pincode:", pincode, "ilaakaName:", ilaakaName);
 
-export const fetchUserFeed = async () => {
-  const response = await axiosInstance.get("/api/user/feed");
-  return response.data;
+    const validIlaakaName = typeof ilaakaName === "string" ? ilaakaName : "";
+
+    const url =
+      `/api/posts/getPosts?pinCode=${pincode}` +
+      (validIlaakaName
+        ? `&ilaakaName=${encodeURIComponent(validIlaakaName)}`
+        : "");
+
+    const response = await axiosInstance.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user feed:", error);
+    throw error;
+  }
 };
 
 export const fetchUserProfile = async () => {
