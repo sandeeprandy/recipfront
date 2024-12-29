@@ -5,7 +5,7 @@ import "./Login.css";
 import { saveUserProfile } from "../slices/userSlices";
 import { useDispatch } from "react-redux";
 
-function Login() {
+function Login( {onLoginSuccess}) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,10 +19,11 @@ function Login() {
         "https://recipback.onrender.com/api/auth/login",
         { email, password }
       );
-      console.log("Login successful");
+     
       // Assuming response contains the username
      
       localStorage.setItem("userinfo", JSON.stringify(response.data));
+      onLoginSuccess()
       navigate("/home");
     } catch (error) {
       setError("Invalid email or password.");

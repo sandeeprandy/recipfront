@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import AddPostModal from "../Models/addPostModel";
 
-const Header = ({ handleDrawerToggle }) => {
+const Header = ({ handleDrawerToggle,onPostAdded }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -30,6 +30,7 @@ const Header = ({ handleDrawerToggle }) => {
   };
 
   const handleModalClose = () => {
+    onPostAdded()
     setIsModalOpen(false);
   };
 

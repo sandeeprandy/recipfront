@@ -8,38 +8,39 @@ import NewsFeed from "./NewsFeed";
 import Profile from "./Profile";
 import Settings from "./Settings";
 
-
 const HomePage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState("newsfeed");
-  const [userPincode , setUserPincode]=useState("503225")
-  
-  const userinfo = JSON.parse(localStorage.getItem("userinfo"));
-
- 
- 
+  const [userPincode, setUserPincode] = useState(() => {
+    const userinfo = JSON.parse(localStorage.getItem("userinfo"));
+    return userinfo?.user[0][0].pin_code;
+  });
+  const [refreshFeed, setRefreshFeed] = useState(false); // State to trigger useEffect
 
   const dispatch = useDispatch();
   const { feed, profile, loading } = useSelector((state) => state.user);
-  
 
   useEffect(() => {
-    setUserPincode(userinfo?.user[0].pin_code)
     if (currentPage === "newsfeed") {
       dispatch(getUserFeed(userPincode));
     } else if (currentPage === "profile") {
       dispatch(getUserProfile());
     }
-  }, [currentPage, dispatch]);
+  }, [currentPage, dispatch, userPincode, refreshFeed]); // Include refreshFeed in dependencies
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  // Callback to refresh feed
+  const handleRefreshFeed = () => {
+    setRefreshFeed((prev) => !prev);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Header handleDrawerToggle={handleSidebarToggle} />
+      <Header handleDrawerToggle={handleSidebarToggle} onPostAdded={handleRefreshFeed} />
       <Sidebar
         sidebarOpen={sidebarOpen}
         handleSidebarToggle={handleSidebarToggle}
@@ -49,7 +50,7 @@ const HomePage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: 1,
           width: `calc(100% - ${sidebarOpen ? 240 : 64}px)`,
           mt: 8,
         }}

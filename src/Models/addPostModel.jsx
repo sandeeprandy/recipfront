@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  Button,
-} from "@mui/material";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useState } from "react";
+import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,8 +18,10 @@ const validationSchema = Yup.object().shape({
 const AddPostModal = ({ open, onClose }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL
- 
+
   const userinfo = JSON.parse(localStorage.getItem("userinfo"));
+  console.log(userinfo)
+
 
   const {
     control,
@@ -42,8 +39,8 @@ const AddPostModal = ({ open, onClose }) => {
     },
   });
 
-  // Handle image change, and upload to ImgBB
-  const handleImageChange = async (event) => {
+
+  const handleImageChange = useCallback(async (event) => {
     const file = event.target.files[0];
     if (file) {
       setValue("image", file); // Updates react-hook-form value for image
@@ -65,7 +62,11 @@ const AddPostModal = ({ open, onClose }) => {
         console.error("Error uploading image:", error);
       }
     }
-  };
+  });
+
+  useEffect(() => {
+    console.log("ss");
+  }, [handleImageChange]);
 
   const handleCancel = () => {
     reset();
@@ -80,9 +81,9 @@ const AddPostModal = ({ open, onClose }) => {
     formData.append("ilaakaName", data.ilaakaName);
     formData.append("pinCode", data.pinCode);
     formData.append("description", data.description);
-    formData.append("image", imageUrl); 
-    formData.append("firstName " , userinfo?.user[0].first_name )
-    formData.append("lastName", userinfo?.user[0].last_name)
+    formData.append("image", imageUrl);
+    formData.append("firstName ", userinfo?.user[0][0]?.first_name);
+    formData.append("lastName", userinfo?.user[0][0]?.last_name);
 
     try {
       const response = await axios.post(
@@ -90,7 +91,7 @@ const AddPostModal = ({ open, onClose }) => {
         formData,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
