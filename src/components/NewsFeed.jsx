@@ -18,7 +18,7 @@ const NewsFeed = () => {
   return (
     <Box
       sx={{
-        maxHeight: "80vh",
+        maxHeight: "88vh",
         overflowY: "auto",
         paddingRight: "16px",
         background: "linear-gradient(0deg, rgba(173,250,255,1), rgba(128,168,255,1))",
