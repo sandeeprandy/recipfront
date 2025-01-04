@@ -11,7 +11,7 @@ import Settings from "./Settings";
 const HomePage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState("newsfeed");
-  const [userPincode, setUserPincode] = useState(() => {
+  const [userPincode] = useState(() => {
     const userinfo = JSON.parse(localStorage.getItem("userinfo"));
     return userinfo?.user[0][0].pin_code;
   });

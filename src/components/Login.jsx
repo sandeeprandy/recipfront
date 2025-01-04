@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
-import { saveUserProfile } from "../slices/userSlices";
-import { useDispatch } from "react-redux";
+
 
 function Login( {onLoginSuccess}) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [username, setUsername] = useState("");
-  const dispatch = useDispatch();
+  const [username] = useState("");
 
   const handleLogin = async () => {
     try {
