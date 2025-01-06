@@ -20,7 +20,7 @@ const schema = yup.object().shape({
     .string()
     .matches(/^\d{6}$/, "Pin Code must be 6 digits")
     .required("Pin Code is required"),
-  illaka: yup.string().required("Illaka is required"),
+  ilaaka: yup.string().required("Ilaaka is required"),
   password: yup
     .string()
     .min(6, "Password must be at least 6 characters")
@@ -176,7 +176,7 @@ const RegisterPage = () => {
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label="Illaka"
+                      label="Ilaaka"
                       fullWidth
                       error={!!errors.illaka}
                       helperText={errors.illaka?.message}
