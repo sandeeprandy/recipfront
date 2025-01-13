@@ -36,31 +36,31 @@ export default function AppsMenu() {
           <ListItemDecorator>
             <Avatar>S</Avatar>
           </ListItemDecorator>
-          Search
+          Food
         </MenuItem>
         <MenuItem orientation="vertical">
           <ListItemDecorator>
             <Avatar>M</Avatar>
           </ListItemDecorator>
-          Maps
+         Shopping
         </MenuItem>
         <MenuItem orientation="vertical">
           <ListItemDecorator>
             <Avatar>M</Avatar>
           </ListItemDecorator>
-          Mail
+        Bussiness
         </MenuItem>
         <MenuItem orientation="vertical">
           <ListItemDecorator>
             <Avatar>D</Avatar>
           </ListItemDecorator>
-          Drive
+          Transport
         </MenuItem>
         <MenuItem orientation="vertical">
           <ListItemDecorator>
             <Avatar>C</Avatar>
           </ListItemDecorator>
-          Calendar
+          Health
         </MenuItem>
       </Menu>
     </Dropdown>
