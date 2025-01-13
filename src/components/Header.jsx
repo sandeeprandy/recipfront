@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import AddPostModal from "../Models/addPostModel";
 
-const Header = ({ handleDrawerToggle,onPostAdded }) => {
+const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -36,26 +36,26 @@ const Header = ({ handleDrawerToggle,onPostAdded }) => {
 
   return (
     <>
-      <AppBar position="fixed" sx={{ background: "#1c1c1c" }}>
+      <AppBar  sx={{ background: "#1c1c1c" ,}}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             color="inherit"
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
 
           <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
             My App
           </Typography>
 
-          <Tooltip title="Add Post">
+          {/* <Tooltip title="Add Post">
             <IconButton color="inherit" sx={{ ml: 1 }} onClick={handleModalOpen}>
               <PostAddIcon sx={{ fontSize: 40 }} />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
 
           <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
             <Avatar src="/profile-pic.jpg" alt="Profile" />
