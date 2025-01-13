@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   Grid,
-  Paper,
   Typography,
   Box,
   Dialog,
   Button,
-  Avatar,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
@@ -31,9 +29,6 @@ const NewsFeed = () => {
     setIsModalOpen(false);
   };
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
-  };
 
   const handleCloseDialog = () => {
     setSelectedImage(null);

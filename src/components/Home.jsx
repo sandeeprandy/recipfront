@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Box, CssBaseline, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserFeed } from "../slices/userSlices";
-import Header from "./Header";
 import NewsFeed from "./NewsFeed";
 
 const HomePage = () => {
-  const [scrollDirection, setScrollDirection] = useState("down"); // Track scroll direction
+  const [, setScrollDirection] = useState("down"); // Track scroll direction
   const [userPincode] = useState(() => {
     const userinfo = JSON.parse(localStorage.getItem("userinfo"));
     return userinfo?.user[0][0].pin_code;
   });
-  const [refreshFeed, setRefreshFeed] = useState(false);
+  const [refreshFeed] = useState(false);
 
   const dispatch = useDispatch();
   const { feed, loading } = useSelector((state) => state.user);
@@ -38,9 +36,6 @@ const HomePage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleRefreshFeed = () => {
-    setRefreshFeed((prev) => !prev);
-  };
 
   return (
     <>
