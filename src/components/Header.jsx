@@ -7,10 +7,8 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  Tooltip,
+ 
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import PostAddIcon from "@mui/icons-material/PostAdd";
 import AddPostModal from "../Models/addPostModel";
 import SelectedMenu from "./SelectedMenu";
 
@@ -26,9 +24,6 @@ const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
     setAnchorEl(null);
   };
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
 
   const handleModalClose = () => {
     onPostAdded()
