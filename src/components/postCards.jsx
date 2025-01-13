@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import * as React from "react";
+import React, { useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
@@ -8,24 +7,36 @@ import CardContent from "@mui/joy/CardContent";
 import CardOverflow from "@mui/joy/CardOverflow";
 import Link from "@mui/joy/Link";
 import IconButton from "@mui/joy/IconButton";
-import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import ModeCommentOutlined from "@mui/icons-material/ModeCommentOutlined";
 import SendOutlined from "@mui/icons-material/SendOutlined";
-import Face from "@mui/icons-material/Face";
+import WhatsApp from "@mui/icons-material/WhatsApp";
+
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import { formatDistanceToNow } from "date-fns";
 
 const InstagramPost = (data, key) => {
-    console.log(data)
- 
+  const [showMore, setShowMore] = useState(false);
   const createdAt = new Date(data.data.createdAt);
+
+  const toggleMore = () => {
+    setShowMore((prev) => !prev);
+  };
+
   return (
     <Card
       variant="outlined"
-      sx={{ minWidth: 300, "--Card-radius": (theme) => theme.vars.radius.xs }}
+      sx={{
+        minWidth: 300,
+        "--Card-radius": (theme) => theme.vars.radius.xs,
+        background: "rgba(255, 255, 255, 0.2)", // Frosted glass effect
+        backdropFilter: "blur(10px)",
+        border: "2px solid transparent", // Base border
+        borderImage: "linear-gradient(90deg, lightblue, blue, lightblue) 1", // Gradient border
+        boxShadow: "0px 0px 10px 2px rgba(172, 118, 74, 0.7)", // Glowing effect
+      }}
       key={key}
     >
       <CardContent
@@ -72,97 +83,87 @@ const InstagramPost = (data, key) => {
           <img src={data?.data?.image} alt="postPic" loading="lazy" />
         </AspectRatio>
       </CardOverflow>
-      <CardContent
-        orientation="horizontal"
-        sx={{ alignItems: "center", mx: -1 }}
-      >
-        <Box sx={{ width: 0, display: "flex", gap: 0.5 }}>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <FavoriteBorder />
-          </IconButton>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <ModeCommentOutlined />
-          </IconButton>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <SendOutlined />
-          </IconButton>
-        </Box>
-        <Box
-          sx={{ display: "flex", alignItems: "center", gap: 0.5, mx: "auto" }}
-        >
-          {[...Array(5)].map((_, index) => (
-            <Box
-              key={index}
-              sx={[
-                {
-                  borderRadius: "50%",
-                  width: `max(${6 - index}px, 3px)`,
-                  height: `max(${6 - index}px, 3px)`,
-                },
-                index === 0
-                  ? { bgcolor: "primary.solidBg" }
-                  : { bgcolor: "background.level3" },
-              ]}
-            />
-          ))}
-        </Box>
-        <Box sx={{ width: 0, display: "flex", flexDirection: "row-reverse" }}>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <BookmarkBorderRoundedIcon />
-          </IconButton>
-        </Box>
-      </CardContent>
       <CardContent>
-        {/* <Link
-          component="button"
-          underline="none"
-          textColor="text.primary"
-          sx={{ fontSize: "sm", fontWeight: "lg" }}
+        <CardContent
+          orientation="horizontal"
+          sx={{ alignItems: "center", mx: -1 }}
         >
-          8.1M Likes
-        </Link> */}
-        <Typography sx={{ fontSize: "sm" }}>
-          <Link
-            component="button"
-            color="neutral"
-            textColor="text.primary"
-            sx={{ fontWeight: "lg" }}
+          <Box sx={{ width: 0, display: "flex", gap: 0.5 }}>
+            <IconButton variant="plain" color="neutral" size="sm">
+              <FavoriteBorder />
+            </IconButton>
+            {/* <IconButton variant="plain" color="neutral" size="sm">
+              <ModeCommentOutlined />
+            </IconButton> */}
+            <IconButton variant="plain" color="neutral" size="sm">
+              <WhatsApp />
+            </IconButton>
+            <IconButton variant="plain" color="neutral" size="sm">
+              <SendOutlined />
+            </IconButton>
+          </Box>
+          <Box
+            sx={{ display: "flex", alignItems: "center", gap: 0.5, mx: "auto" }}
           >
-            DESCRIPTON :-
-          </Link>
-          {data.data.description}
+            {[...Array(5)].map((_, index) => (
+              <Box
+                key={index}
+                sx={[
+                  {
+                    borderRadius: "50%",
+                    width: `max(${6 - index}px, 3px)`,
+                    height: `max(${6 - index}px, 3px)`,
+                  },
+                  index === 0
+                    ? { bgcolor: "primary.solidBg" }
+                    : { bgcolor: "background.level3" },
+                ]}
+              />
+            ))}
+          </Box>
+          <Box sx={{ width: 0, display: "flex", flexDirection: "row-reverse" }}>
+            <IconButton variant="plain" color="neutral" size="sm">
+              <BookmarkBorderRoundedIcon />
+            </IconButton>
+          </Box>
+        </CardContent>
+        <Typography
+          sx={{
+            fontSize: "sm",
+            overflow: "hidden",
+            whiteSpace: showMore ? "normal" : "nowrap",
+            textOverflow: "ellipsis",
+          }}
+        >
+          <strong>DESCRIPTION:</strong> {data.data.description}
         </Typography>
+        {showMore && (
+          <Box sx={{ mt: 1 }}>
+            <Typography sx={{ fontSize: "sm" }}>
+              <strong>Pin Code:</strong> {data.data.pinCode}
+            </Typography>
+            <Typography sx={{ fontSize: "sm" }}>
+              <strong>Village/Street Name:</strong> {data.data.ilaakaName}
+            </Typography>
+            <Typography sx={{ fontSize: "sm" }}>
+              <strong>Phone Number:</strong> {data.data.phoneNumber}
+            </Typography>
+          </Box>
+        )}
         <Link
           component="button"
           underline="none"
-          startDecorator="…"
-          sx={{ fontSize: "sm", color: "text.tertiary" }}
+          sx={{ fontSize: "sm", color: "text.tertiary", mt: 1 }}
+          onClick={toggleMore}
         >
-          more
+          {showMore ? "Show Less" : "More"}
         </Link>
-        <Link
-          component="button"
-          underline="none"
-          sx={{ fontSize: "10px", color: "text.tertiary", my: 0.5 }}
-        >
-         {formatDistanceToNow(createdAt, { addSuffix: true })}
-        </Link>
+        <Typography sx={{ fontSize: "10px", color: "text.tertiary", mt: 1 }}>
+          {formatDistanceToNow(createdAt, { addSuffix: true })}
+        </Typography>
       </CardContent>
-      {/* <CardContent orientation="horizontal" sx={{ gap: 1 }}>
-        <IconButton size="sm" variant="plain" color="neutral" sx={{ ml: -1 }}>
-          <Face />
-        </IconButton>
-        <Input
-          variant="plain"
-          size="sm"
-          placeholder="Add a comment…"
-          sx={{ flex: 1, px: 0, "--Input-focusedThickness": "0px" }}
-        />
-        <Link disabled underline="none" role="button">
-          Post
-        </Link>
-      </CardContent> */}
     </Card>
   );
 };
+
 export default InstagramPost;

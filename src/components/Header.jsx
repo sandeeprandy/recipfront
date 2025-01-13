@@ -12,6 +12,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import AddPostModal from "../Models/addPostModel";
+import SelectedMenu from "./SelectedMenu";
 
 const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -56,6 +57,7 @@ const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
               <PostAddIcon sx={{ fontSize: 40 }} />
             </IconButton>
           </Tooltip> */}
+          <SelectedMenu />
 
           <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
             <Avatar src="/profile-pic.jpg" alt="Profile" />
