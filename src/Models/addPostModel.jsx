@@ -201,7 +201,10 @@ const AddPostModal = ({ open, onClose }) => {
                   border: "1px solid #ccc",
                 }}
               />
-              <Controller
+             
+            </Box>
+          )}
+           <Controller
                 name="price"
                 control={control}
                 render={({ field }) => (
@@ -212,12 +215,10 @@ const AddPostModal = ({ open, onClose }) => {
                     variant="outlined"
                     error={!!errors.price}
                     helperText={errors.price?.message}
-                    sx={{ maxWidth: 100 }}
+                    sx={{ mb: 2 }}
                   />
                 )}
               />
-            </Box>
-          )}
 
           <Controller
             name="description"
