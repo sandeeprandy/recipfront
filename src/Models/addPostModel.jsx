@@ -1,10 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState } from "react";
-import { Modal, Box, Typography, TextField, Button } from "@mui/material";
+import React, { useCallback, useState, useRef } from "react";
+import {
+  Modal,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const validationSchema = Yup.object().shape({
   ilaakaName: Yup.string().required("Ilaaka Name is required"),
@@ -17,11 +26,8 @@ const validationSchema = Yup.object().shape({
 
 const AddPostModal = ({ open, onClose }) => {
   const [imagePreview, setImagePreview] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null); // To store the image URL
-
+  const [imageUrl, setImageUrl] = useState(null);
   const userinfo = JSON.parse(localStorage.getItem("userinfo"));
-  console.log(userinfo)
-
 
   const {
     control,
@@ -32,41 +38,36 @@ const AddPostModal = ({ open, onClose }) => {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      ilaakaName: "",
-      pinCode: "",
       description: "",
       image: null,
     },
   });
 
-
   const handleImageChange = useCallback(async (event) => {
     const file = event.target.files[0];
     if (file) {
-      setValue("image", file); // Updates react-hook-form value for image
-      setImagePreview(URL.createObjectURL(file)); // Sets image preview
+      const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+      if (!allowedTypes.includes(file.type)) {
+        alert("Only images are allowed. Please upload a valid image.");
+        return;
+      }
 
-      // Upload image to ImgBB
+      setValue("image", file);
+      setImagePreview(URL.createObjectURL(file));
+
       const formData = new FormData();
       formData.append("image", file);
       try {
         const response = await axios.post(
-          "https://api.imgbb.com/1/upload?key=135b0455e99f3ddb19ace9e9e588f5af", // Replace YOUR_API_KEY with your actual API key
+          "https://api.imgbb.com/1/upload?key=135b0455e99f3ddb19ace9e9e588f5af",
           formData
         );
-        // Get the image URL from the response
-        const url = response.data.data.url;
-        setImageUrl(url); // Store the URL
-        console.log("Image URL: ", url);
+        setImageUrl(response.data.data.url);
       } catch (error) {
         console.error("Error uploading image:", error);
       }
     }
   });
-
-  useEffect(() => {
-    console.log("ss");
-  }, [handleImageChange]);
 
   const handleCancel = () => {
     reset();
@@ -76,24 +77,20 @@ const AddPostModal = ({ open, onClose }) => {
   };
 
   const onSubmit = async (data) => {
-    console.log("Form data:", data); // Log form data for debugging
     const formData = new FormData();
     formData.append("ilaakaName", data.ilaakaName);
     formData.append("pinCode", data.pinCode);
     formData.append("description", data.description);
     formData.append("image", imageUrl);
+    formData.append("price", data.price);
+    formData.append("phoneNumber", data.phoneNumber);
     formData.append("firstName ", userinfo?.user[0][0]?.first_name);
     formData.append("lastName", userinfo?.user[0][0]?.last_name);
 
     try {
       const response = await axios.post(
         "https://recipback.onrender.com/api/posts/addPost",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        formData
       );
       console.log("Post added successfully:", response.data);
       handleCancel();
@@ -110,11 +107,13 @@ const AddPostModal = ({ open, onClose }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
+          width: { xs: "95%", sm: "400px" },
+          maxHeight: "85vh",
           bgcolor: "background.paper",
           borderRadius: 1,
           boxShadow: 24,
-          p: 4,
+          p: 3,
+          overflowY: "auto",
         }}
       >
         <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
@@ -122,72 +121,104 @@ const AddPostModal = ({ open, onClose }) => {
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name="ilaakaName"
+            name="postType"
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
+                select
                 fullWidth
-                label="Ilaaka Name"
+                label="Post Type"
                 variant="outlined"
-                error={!!errors.ilaakaName}
-                helperText={errors.ilaakaName?.message}
+                error={!!errors.postType}
+                helperText={errors.postType?.message}
                 sx={{ mb: 2 }}
-              />
+              >
+                {[
+                  "Food",
+                  "Travel",
+                  "News",
+                  "Events",
+                  "Health",
+                  "Business",
+                  "Shopping",
+                  "Delivery",
+                ].map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
             )}
           />
-          <Controller
-            name="pinCode"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Pin Code"
-                variant="outlined"
-                error={!!errors.pinCode}
-                helperText={errors.pinCode?.message}
-                sx={{ mb: 2 }}
+
+          <Box sx={{ mb: 2, display: "flex", gap: 2, alignItems: "center" }}>
+            <Button variant="contained" component="label" fullWidth>
+              Upload Image
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={handleImageChange}
               />
-            )}
-          />
-          <Button
-            variant="contained"
-            component="label"
-            fullWidth
-            sx={{ mb: 2 }}
-          >
-            Upload Image
-            <input
-              type="file"
-              hidden
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-          </Button>
+            </Button>
+
+            <IconButton
+              color="primary"
+              component="label"
+              sx={{ display: { xs: "flex", sm: "none" } }} // Only show on mobile
+            >
+              <CameraAltIcon />
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                capture="environment" // Open the device camera
+                onChange={handleImageChange}
+              />
+            </IconButton>
+          </Box>
+
+          {/* Image Preview */}
           {imagePreview && (
             <Box
-              component="img"
-              src={imagePreview}
-              alt="Preview"
-              sx={{ width: 100, height: "auto", mb: 2, borderRadius: 1 }}
-            />
-          )}
-          {imageUrl && (
-            <Box
-              component="a"
-              href={imageUrl}
-              target="_blank"
-              sx={{ textDecoration: "none", color: "primary.main" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mb: 2,
+              }}
             >
-              Open Image in New Tab
+              <Box
+                component="img"
+                src={imagePreview}
+                alt="Preview"
+                sx={{
+                  width: 50,
+                  height: "auto",
+                  borderRadius: 1,
+                  mb: 1,
+                  border: "1px solid #ccc",
+                }}
+              />
+              <Controller
+                name="price"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    label="Price"
+                    variant="outlined"
+                    error={!!errors.price}
+                    helperText={errors.price?.message}
+                    sx={{ maxWidth: 100 }}
+                  />
+                )}
+              />
             </Box>
           )}
-          {errors.image && (
-            <Typography color="error" sx={{ mb: 2 }}>
-              {errors.image.message}
-            </Typography>
-          )}
+
           <Controller
             name="description"
             control={control}
@@ -205,6 +236,57 @@ const AddPostModal = ({ open, onClose }) => {
               />
             )}
           />
+
+          <Controller
+            name="pinCode"
+            control={control}
+            defaultValue={userinfo?.user[0][0].pin_code || ""}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Pin Code"
+                variant="outlined"
+                error={!!errors.pinCode}
+                helperText={errors.pinCode?.message}
+                sx={{ mb: 2 }}
+              />
+            )}
+          />
+
+          <Controller
+            name="ilaakaName"
+            control={control}
+            defaultValue={userinfo?.user[0][0].ilaaka || ""}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Ilaaka Name"
+                variant="outlined"
+                error={!!errors.ilaakaName}
+                helperText={errors.ilaakaName?.message}
+                sx={{ mb: 2 }}
+              />
+            )}
+          />
+          <Controller
+            name="phoneNumber"
+            control={control}
+            defaultValue={userinfo?.user[0][0].phone_number || ""}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Phone Number"
+                variant="outlined"
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber?.message}
+                sx={{ mb: 2 }}
+              />
+            )}
+          />
+
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Button variant="outlined" onClick={handleCancel}>
               Cancel
