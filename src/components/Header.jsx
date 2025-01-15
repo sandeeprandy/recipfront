@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -7,14 +7,44 @@ import {
   Avatar,
   Menu,
   MenuItem,
- 
+  TextField,
+  Button,
 } from "@mui/material";
-import AddPostModal from "../Models/addPostModel";
 import SelectedMenu from "./SelectedMenu";
+import { getUserFeed } from "../slices/userSlices";
+import { useDispatch } from "react-redux";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
+const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const userinfo = JSON.parse(localStorage.getItem("userinfo"));
+  const [userPincode, setuserPinCode] = useState(
+    userinfo?.user[0][0]?.pin_code
+  );
+
+  const [tempPincode, setTempPincode] = useState(userPincode);
+
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handlePincodeChange = () => {
+    setuserPinCode(tempPincode); // Update pincode
+    handleCloseMenu();
+  };
+
+  const [filter, setFilter] = useState("all");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const requestData = { pincode: userPincode, filter };
+    dispatch(getUserFeed(requestData));
+  }, [dispatch, userPincode, filter]);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,15 +54,9 @@ const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
     setAnchorEl(null);
   };
 
-
-  const handleModalClose = () => {
-    onPostAdded()
-    setIsModalOpen(false);
-  };
-
   return (
     <>
-      <AppBar  sx={{ background: "#1c1c1c" ,}}>
+      <AppBar sx={{ background: "#1c1c1c" }}>
         <Toolbar>
           {/* <IconButton
             color="inherit"
@@ -52,7 +76,15 @@ const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
               <PostAddIcon sx={{ fontSize: 40 }} />
             </IconButton>
           </Tooltip> */}
-          <SelectedMenu />
+          <Typography variant="body1">{userPincode}</Typography>
+          <IconButton sx={{ color: "white" }}>
+            <ArrowDropDownIcon
+              onClick={handleOpenMenu}
+              sx={{ fontSize: "32px", fontWeight: "bold" }}
+            />
+          </IconButton>
+
+          <SelectedMenu setFilter={setFilter} />
 
           <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
             <Avatar src="/profile-pic.jpg" alt="Profile" />
@@ -67,10 +99,36 @@ const Header = ({ handleDrawerToggle,onPostAdded,sx }) => {
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
           </Menu>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+            sx={{
+              "& .MuiMenu-paper": {
+                padding: "16px",
+                backgroundColor: "#f4f4f4",
+              },
+            }}
+          >
+            <TextField
+              value={tempPincode}
+              onChange={(e) => setTempPincode(e.target.value)}
+              label="Enter Pin Code"
+              variant="outlined"
+              fullWidth
+              sx={{ marginBottom: "8px" }}
+            />
+            <Button
+              onClick={handlePincodeChange}
+              variant="contained"
+              fullWidth
+              sx={{ backgroundColor: "#1976d2", color: "#fff" }}
+            >
+              Update
+            </Button>
+          </Menu>
         </Toolbar>
       </AppBar>
-
-      <AddPostModal open={isModalOpen} onClose={handleModalClose} />
     </>
   );
 };

@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Grid,
-  Typography,
-  Box,
-  Dialog,
-  Button,
-} from "@mui/material";
+import { Grid, Typography, Box, Dialog, Button } from "@mui/material";
+
 import { useSelector } from "react-redux";
+
 import { motion } from "framer-motion";
 import Header from "./Header";
 import InstagramPost from "./postCards";
@@ -21,14 +17,12 @@ const NewsFeed = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
-    
     setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-
 
   const handleCloseDialog = () => {
     setSelectedImage(null);
@@ -63,7 +57,7 @@ const NewsFeed = () => {
   return (
     <Box>
       {/* Header */}
-      <Header />
+      <Header  />
 
       {/* News Feed */}
       <Box
@@ -71,7 +65,8 @@ const NewsFeed = () => {
         sx={{
           height: "100vh",
           overflowY: "auto", // Allows vertical scrolling
-          background: "linear-gradient(0deg, rgb(184, 222, 224), rgb(184, 200, 235))",
+          background:
+            "linear-gradient(0deg, rgb(184, 222, 224), rgb(184, 200, 235))",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
           padding: "2px",
           scrollbarWidth: "none", // Hides the scrollbar in Firefox
@@ -79,7 +74,6 @@ const NewsFeed = () => {
             display: "none", // Hides the scrollbar in WebKit browsers like Chrome, Safari
           },
         }}
-        
       >
         <Grid
           container

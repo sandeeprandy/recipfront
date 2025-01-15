@@ -1,19 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchUserFeed, fetchUserProfile } from "../services/userService";
+import { fetchUserFeed } from "../services/userService";
 
 export const getUserFeed = createAsyncThunk(
   "user/getUserFeed",
-  async (pincode, ilaaka) => {
-    return await fetchUserFeed(pincode, ilaaka);
+  async ({pincode, filter}) => {
+    console.log("Filter:", filter);
+    console.log("Filter:", pincode);
+    return await fetchUserFeed({pincode ,filter});
   }
 );
 
-export const getUserProfile = createAsyncThunk(
-  "user/getUserProfile",
-  async () => {
-    return await fetchUserProfile();
-  }
-);
+
 
 const userSlice = createSlice({
   name: "user",
@@ -39,17 +36,7 @@ const userSlice = createSlice({
         state.error = action.error.message;
       })
       // Profile Fetch
-      .addCase(getUserProfile.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getUserProfile.fulfilled, (state, action) => {
-        state.loading = false;
-        state.profile = action.payload;
-      })
-      .addCase(getUserProfile.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
+    
   },
 });
 

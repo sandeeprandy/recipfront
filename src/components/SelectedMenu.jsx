@@ -8,14 +8,17 @@ import MenuButton from '@mui/joy/MenuButton';
 import Apps from '@mui/icons-material/Apps';
 import Dropdown from '@mui/joy/Dropdown';
 
-export default function AppsMenu() {
+export default function AppsMenu({ setFilter }) {
+  const handleFilterChange = (filterValue) => {
+    setFilter(filterValue);
+  };
+
   return (
     <Dropdown>
       <MenuButton
         slots={{ root: IconButton }}
         slotProps={{ root: { variant: 'plain', color: 'white' } }}
-        sx={{ borderRadius: 40,color:"white",marginRight:"10px" }}
-        
+        sx={{ borderRadius: 40, color: "white", marginRight: "10px" }}
       >
         <Apps />
       </MenuButton>
@@ -32,31 +35,46 @@ export default function AppsMenu() {
           gap: 1,
         }}
       >
-        <MenuItem orientation="vertical">
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Food")}
+        >
           <ListItemDecorator>
             <Avatar>S</Avatar>
           </ListItemDecorator>
           Food
         </MenuItem>
-        <MenuItem orientation="vertical">
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Shopping")}
+        >
           <ListItemDecorator>
             <Avatar>M</Avatar>
           </ListItemDecorator>
-         Shopping
+          Shopping
         </MenuItem>
-        <MenuItem orientation="vertical">
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Business")}
+        >
           <ListItemDecorator>
             <Avatar>M</Avatar>
           </ListItemDecorator>
-        Bussiness
+          Business
         </MenuItem>
-        <MenuItem orientation="vertical">
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Transport")}
+        >
           <ListItemDecorator>
             <Avatar>D</Avatar>
           </ListItemDecorator>
           Transport
         </MenuItem>
-        <MenuItem orientation="vertical">
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Health")}
+        >
           <ListItemDecorator>
             <Avatar>C</Avatar>
           </ListItemDecorator>
