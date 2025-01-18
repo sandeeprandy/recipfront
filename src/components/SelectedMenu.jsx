@@ -73,12 +73,12 @@ export default function AppsMenu({ setFilter }) {
         </MenuItem>
         <MenuItem
           orientation="vertical"
-          onClick={() => handleFilterChange("Transport")}
+          onClick={() => handleFilterChange("Travel")}
         >
           <ListItemDecorator>
             <Avatar>T</Avatar>
           </ListItemDecorator>
-          Transport
+          Travel
         </MenuItem>
         <MenuItem
           orientation="vertical"
