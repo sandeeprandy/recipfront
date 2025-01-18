@@ -17,6 +17,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profileModel, setProfileModel] = useState(null);
   const userinfo = JSON.parse(localStorage.getItem("userinfo"));
   const [userPincode, setuserPinCode] = useState(
     userinfo?.user[0][0]?.pin_code
@@ -26,6 +27,9 @@ const Header = () => {
 
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const handleOpenProfileMenu = (event) => {
+    setProfileModel(event.currentTarget);
   };
 
   const handleCloseMenu = () => {
@@ -46,12 +50,9 @@ const Header = () => {
     dispatch(getUserFeed(requestData));
   }, [dispatch, userPincode, filter]);
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleMenuProfileClose = () => {
+    setProfileModel(null);
   };
 
   return (
@@ -66,10 +67,17 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton> */}
-
-          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-            My App
-          </Typography>
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              flexGrow: 1,
+              fontFamily: 'Arial',// Replace with the actual font family name
+              fontWeight: "bold",
+              letterSpacing: "0.5px",
+              color: "#FFFFFF",
+            }}
+          > Omnia</Typography>
 
           {/* <Tooltip title="Add Post">
             <IconButton color="inherit" sx={{ ml: 1 }} onClick={handleModalOpen}>
@@ -86,18 +94,18 @@ const Header = () => {
 
           <SelectedMenu setFilter={setFilter} />
 
-          <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
+          <IconButton onClick={handleOpenProfileMenu} sx={{ p: 0 }}>
             <Avatar src="/profile-pic.jpg" alt="Profile" />
           </IconButton>
 
           <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
+            anchorEl={profileModel}
+            open={Boolean(profileModel)}
+            onClose={handleMenuProfileClose}
             sx={{ mt: "45px" }}
           >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+            <MenuItem onClick={handleMenuProfileClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuProfileClose}>Logout</MenuItem>
           </Menu>
           <Menu
             anchorEl={anchorEl}

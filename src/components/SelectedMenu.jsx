@@ -40,7 +40,7 @@ export default function AppsMenu({ setFilter }) {
           onClick={() => handleFilterChange("Food")}
         >
           <ListItemDecorator>
-            <Avatar>S</Avatar>
+            <Avatar>F</Avatar>
           </ListItemDecorator>
           Food
         </MenuItem>
@@ -49,7 +49,7 @@ export default function AppsMenu({ setFilter }) {
           onClick={() => handleFilterChange("Shopping")}
         >
           <ListItemDecorator>
-            <Avatar>M</Avatar>
+            <Avatar>S</Avatar>
           </ListItemDecorator>
           Shopping
         </MenuItem>
@@ -58,7 +58,7 @@ export default function AppsMenu({ setFilter }) {
           onClick={() => handleFilterChange("Business")}
         >
           <ListItemDecorator>
-            <Avatar>M</Avatar>
+            <Avatar>B</Avatar>
           </ListItemDecorator>
           Business
         </MenuItem>
@@ -67,7 +67,7 @@ export default function AppsMenu({ setFilter }) {
           onClick={() => handleFilterChange("Transport")}
         >
           <ListItemDecorator>
-            <Avatar>D</Avatar>
+            <Avatar>T</Avatar>
           </ListItemDecorator>
           Transport
         </MenuItem>
@@ -76,10 +76,48 @@ export default function AppsMenu({ setFilter }) {
           onClick={() => handleFilterChange("Health")}
         >
           <ListItemDecorator>
-            <Avatar>C</Avatar>
+            <Avatar>H</Avatar>
           </ListItemDecorator>
           Health
         </MenuItem>
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("News")}
+        >
+          <ListItemDecorator>
+            <Avatar>N</Avatar>
+          </ListItemDecorator>
+          News
+        </MenuItem>
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Events")}
+        >
+          <ListItemDecorator>
+            <Avatar>E</Avatar>
+          </ListItemDecorator>
+          Events
+        </MenuItem>
+       
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Delivery")}
+        >
+          <ListItemDecorator>
+            <Avatar>D</Avatar>
+          </ListItemDecorator>
+          Delivery boys
+        </MenuItem>
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("All")}
+        >
+          <ListItemDecorator>
+            <Avatar>A</Avatar>
+          </ListItemDecorator>
+          All
+        </MenuItem>
+
       </Menu>
     </Dropdown>
   );

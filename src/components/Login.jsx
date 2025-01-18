@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
+import { motion } from "framer-motion";
+import { Box, TextField, Button, Typography, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/system";
 
-
-function Login( {onLoginSuccess}) {
+function Login({ onLoginSuccess }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [username] = useState("");
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleLogin = async () => {
     try {
@@ -17,11 +19,8 @@ function Login( {onLoginSuccess}) {
         "https://recipback.onrender.com/api/auth/login",
         { email, password }
       );
-     
-      // Assuming response contains the username
-     
       localStorage.setItem("userinfo", JSON.stringify(response.data));
-      onLoginSuccess()
+      onLoginSuccess();
       navigate("/home");
     } catch (error) {
       setError("Invalid email or password.");
@@ -29,38 +28,70 @@ function Login( {onLoginSuccess}) {
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <input
-        className="login-input"
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        className="login-input"
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button className="login-button" onClick={handleLogin}>
-        Login
-      </button>
-      <p className="login-text">
-        Don't have an account? <Link to="/">Register</Link>
-      </p>
-      {error && <p className="login-error">{error}</p>}
-      {username && (
-        <div>
-          <p className="login-welcome">Welcome, {username}!</p>
-          <p className="login-welcome">
-            <button onClick={() => navigate("/home")}>Go to Home Page</button>
-          </p>
-        </div>
-      )}
-    </div>
+    <Box
+      sx={{
+        background: "linear-gradient(0deg, rgba(173,250,255,1), rgba(128,168,255,1))",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: isMobile ? "1rem" : "2rem",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            padding: "2rem",
+            borderRadius: "8px",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            width: isMobile ? "80%" : "400px",
+          }}
+        >
+          <Typography variant={isMobile ? "h5" : "h4"} textAlign="center" gutterBottom>
+            Login
+          </Typography>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Email"
+            variant="outlined"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Password"
+            type="password"
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleLogin}
+            sx={{ mt: 2 }}
+          >
+            Login
+          </Button>
+          <Typography textAlign="center" variant="body2" sx={{ mt: 2 }}>
+            Don't have an account? <Link to="/">Register</Link>
+          </Typography>
+          {error && (
+            <Typography color="error" textAlign="center" variant="body2" sx={{ mt: 1 }}>
+              {error}
+            </Typography>
+          )}
+        </Box>
+      </motion.div>
+    </Box>
   );
 }
 
