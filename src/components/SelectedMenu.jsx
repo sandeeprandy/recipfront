@@ -1,12 +1,12 @@
-import * as React from 'react';
-import Avatar from '@mui/joy/Avatar';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import IconButton from '@mui/joy/IconButton';
-import Menu from '@mui/joy/Menu';
-import MenuItem from '@mui/joy/MenuItem';
-import MenuButton from '@mui/joy/MenuButton';
-import Apps from '@mui/icons-material/Apps';
-import Dropdown from '@mui/joy/Dropdown';
+import * as React from "react";
+import Avatar from "@mui/joy/Avatar";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import IconButton from "@mui/joy/IconButton";
+import Menu from "@mui/joy/Menu";
+import MenuItem from "@mui/joy/MenuItem";
+import MenuButton from "@mui/joy/MenuButton";
+import Apps from "@mui/icons-material/Apps";
+import Dropdown from "@mui/joy/Dropdown";
 
 export default function AppsMenu({ setFilter }) {
   const handleFilterChange = (filterValue) => {
@@ -17,7 +17,7 @@ export default function AppsMenu({ setFilter }) {
     <Dropdown>
       <MenuButton
         slots={{ root: IconButton }}
-        slotProps={{ root: { variant: 'plain', color: 'white' } }}
+        slotProps={{ root: { variant: "plain", color: "white" } }}
         sx={{ borderRadius: 40, color: "white", marginRight: "10px" }}
       >
         <Apps />
@@ -27,14 +27,23 @@ export default function AppsMenu({ setFilter }) {
         invertedColors
         aria-labelledby="apps-menu-demo"
         sx={{
-          '--List-padding': '0.5rem',
-          '--ListItemDecorator-size': '3rem',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 100px)',
-          gridAutoRows: '100px',
+          "--List-padding": "0.5rem",
+          "--ListItemDecorator-size": "3rem",
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 100px)",
+          gridAutoRows: "100px",
           gap: 1,
         }}
       >
+         <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("All")}
+        >
+          <ListItemDecorator>
+            <Avatar>A</Avatar>
+          </ListItemDecorator>
+          All
+        </MenuItem>
         <MenuItem
           orientation="vertical"
           onClick={() => handleFilterChange("Food")}
@@ -98,26 +107,37 @@ export default function AppsMenu({ setFilter }) {
           </ListItemDecorator>
           Events
         </MenuItem>
-       
+
         <MenuItem
           orientation="vertical"
-          onClick={() => handleFilterChange("Delivery")}
+          onClick={() => handleFilterChange("Education")}
         >
           <ListItemDecorator>
-            <Avatar>D</Avatar>
+            <Avatar>E</Avatar>
           </ListItemDecorator>
-          Delivery boys
-        </MenuItem>
-        <MenuItem
-          orientation="vertical"
-          onClick={() => handleFilterChange("All")}
-        >
-          <ListItemDecorator>
-            <Avatar>A</Avatar>
-          </ListItemDecorator>
-          All
+          Education
         </MenuItem>
 
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Jobs")}
+        >
+          <ListItemDecorator>
+            <Avatar>J</Avatar>
+          </ListItemDecorator>
+          Jobs
+        </MenuItem>
+
+        <MenuItem
+          orientation="vertical"
+          onClick={() => handleFilterChange("Manpower")}
+        >
+          <ListItemDecorator>
+            <Avatar>M</Avatar>
+          </ListItemDecorator>
+          Manpower
+        </MenuItem>
+       
       </Menu>
     </Dropdown>
   );

@@ -75,9 +75,10 @@ const AddPostModal = ({ open, onClose }) => {
     setImageUrl(null);
     onClose();
   };
-
+  
   const onSubmit = async (data) => {
     const formData = new FormData();
+    formData.append("postType", data.postType);
     formData.append("ilaakaName", data.ilaakaName);
     formData.append("pinCode", data.pinCode);
     formData.append("description", data.description);
@@ -143,6 +144,9 @@ const AddPostModal = ({ open, onClose }) => {
                   "Business",
                   "Shopping",
                   "Delivery",
+                  "Manpower",
+                  "Jobs",
+                  "Education",
                 ].map((option) => (
                   <MenuItem key={option} value={option}>
                     {option}
@@ -201,24 +205,23 @@ const AddPostModal = ({ open, onClose }) => {
                   border: "1px solid #ccc",
                 }}
               />
-             
             </Box>
           )}
-           <Controller
-                name="price"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    fullWidth
-                    label="Price"
-                    variant="outlined"
-                    error={!!errors.price}
-                    helperText={errors.price?.message}
-                    sx={{ mb: 2 }}
-                  />
-                )}
+          <Controller
+            name="price"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label="Price"
+                variant="outlined"
+                error={!!errors.price}
+                helperText={errors.price?.message}
+                sx={{ mb: 2 }}
               />
+            )}
+          />
 
           <Controller
             name="description"
