@@ -41,7 +41,7 @@ const Header = () => {
     handleCloseMenu();
   };
 
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("All");
 
   const dispatch = useDispatch();
 
