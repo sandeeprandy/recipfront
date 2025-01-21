@@ -23,18 +23,24 @@ const InstagramPost = (data, key) => {
   const toggleMore = () => {
     setShowMore((prev) => !prev);
   };
+  const handleWhatsAppClick = (phone) => () => {
+    const message = encodeURIComponent('Hello, I would like to know more!'); // Customize your message
+    const url = `https://wa.me/${phone}?text=${message}`;
+    window.open(url, '_blank', 'noopener,noreferrer'); // Opens in a new tab
+  };
 
   return (
     <Card
       variant="outlined"
       sx={{
-        minWidth: 300,
-        "--Card-radius": (theme) => theme.vars.radius.xs,
-        background: "rgba(255, 255, 255, 0.2)", // Frosted glass effect
+        minWidth: 200,
+
+        background: "rgba(252, 247, 247, 0.93)", // Frosted glass effect
         backdropFilter: "blur(10px)",
         border: "2px solid transparent", // Base border
         borderImage: "linear-gradient(90deg, lightblue, blue, lightblue) 1", // Gradient border
-        boxShadow: "0px 0px 10px 2px rgba(172, 118, 74, 0.7)", // Glowing effect
+        boxShadow: "0px 0px 10px 2px rgba(167, 123, 218, 0.7)", // Glowing effect
+        borderRadius: "6px",
       }}
       key={key}
     >
@@ -94,7 +100,13 @@ const InstagramPost = (data, key) => {
             {/* <IconButton variant="plain" color="neutral" size="sm">
               <ModeCommentOutlined />
             </IconButton> */}
-            <IconButton variant="plain" color="neutral" size="sm">
+            <IconButton
+              variant="plain"
+              color="neutral"
+              size="sm"
+              sx={{ color: '#25D366' }} 
+              onClick={handleWhatsAppClick(data.data.phoneNumber)}
+            >
               <WhatsApp />
             </IconButton>
             <IconButton variant="plain" color="neutral" size="sm">
@@ -134,7 +146,7 @@ const InstagramPost = (data, key) => {
             textOverflow: "ellipsis",
           }}
         >
-          <strong>DESCRIPTION:</strong> {data.data.description}
+          <strong>Price:</strong> {data.data.Price}Rs
         </Typography>
         {showMore && (
           <Box sx={{ mt: 1 }}>
@@ -146,6 +158,9 @@ const InstagramPost = (data, key) => {
             </Typography>
             <Typography sx={{ fontSize: "sm" }}>
               <strong>Phone Number:</strong> {data.data.phoneNumber}
+            </Typography>
+            <Typography sx={{ fontSize: "sm" }}>
+              <strong>DESCRIPTION:</strong> {data.data.description}
             </Typography>
           </Box>
         )}

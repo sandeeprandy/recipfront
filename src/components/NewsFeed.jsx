@@ -57,18 +57,21 @@ const NewsFeed = () => {
   return (
     <Box>
       {/* Header */}
-      <Header  />
+      <Header />
 
       {/* News Feed */}
       <Box
         ref={postsContainerRef}
         sx={{
           height: "100vh",
+
           overflowY: "auto", // Allows vertical scrolling
           background:
             "linear-gradient(0deg, rgb(184, 222, 224), rgb(184, 200, 235))",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-          padding: "2px",
+          paddingLeft: { xs: "0px", sm: "20px", md: "40px" }, // Responsive padding-left
+          paddingRight: { xs: "0px", sm: "20px", md: "40px" }, // Responsive padding-right
+         
           scrollbarWidth: "none", // Hides the scrollbar in Firefox
           "&::-webkit-scrollbar": {
             display: "none", // Hides the scrollbar in WebKit browsers like Chrome, Safari
@@ -77,17 +80,16 @@ const NewsFeed = () => {
       >
         <Grid
           container
-          spacing={2}
+          spacing={{ xs: 0, lg: 6 }}
           component={motion.div}
           layout
-          sx={{ marginTop: "9vh" }}
+          sx={{ marginTop:{ xs: "9vh", sm: "20px", md: "40px" } }}
         >
           {feed?.posts?.length > 0 ? (
             feed.posts.map((post) => (
               <Grid
                 item
                 xs={12}
-                S
                 sm={6}
                 md={4}
                 key={post.id}
