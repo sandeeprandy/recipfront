@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Box, TextField, Button, Typography, useMediaQuery } from "@mui/material";
+import { Box, TextField, Button, Typography, useMediaQuery, Backdrop, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/system";
 
 function Login({ onLoginSuccess }) {
@@ -12,22 +12,27 @@ function Login({ onLoginSuccess }) {
   const [error, setError] = useState("");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true)
     try {
       const response = await axios.post(
         "https://recipback.onrender.com/api/auth/login",
         { email, password }
       );
+      setLoading(false)
       localStorage.setItem("userinfo", JSON.stringify(response.data));
       onLoginSuccess();
       navigate("/home");
     } catch (error) {
       setError("Invalid email or password.");
+      setLoading(false)
     }
   };
 
   return (
+    <>
     <Box
       sx={{
         background: "linear-gradient(0deg, rgba(173,250,255,1), rgba(128,168,255,1))",
@@ -92,6 +97,17 @@ function Login({ onLoginSuccess }) {
         </Box>
       </motion.div>
     </Box>
+    <Backdrop
+        sx={{
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          background: 'linear-gradient(135deg, skyblue, #4682B4)', // Sky blue to Dark Sky blue gradient
+        }}
+        open={loading} // Display loader based on the loading state
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 }
 

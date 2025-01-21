@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Button, Grid, TextField, Typography, Card } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Grid, TextField, Typography, Card, Backdrop, CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
 import { useForm, Controller } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -32,6 +32,7 @@ const schema = yup.object().shape({
 });
 
 const RegisterPage = () => {
+    const [loading, setLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -43,19 +44,23 @@ const RegisterPage = () => {
   });
 
   const handleRegister = async (data) => {
+    setLoading(true)
     try {
       const response = await axios.post(
         "https://recipback.onrender.com/api/auth/register",
         data
       );
+      setLoading(false)
       console.log(response.data.message);
       window.location.href = "/login";
     } catch (err) {
       setError("api", { message: "Registration failed. Please try again." });
+      setLoading(false)
     }
   };
 
   return (
+    <>
     <Box
       sx={{
         height: "100vh",
@@ -299,6 +304,17 @@ const RegisterPage = () => {
         </Card>
       </motion.div>
     </Box>
+    <Backdrop
+        sx={{
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          background: 'linear-gradient(135deg, skyblue, #4682B4)', // Sky blue to Dark Sky blue gradient
+        }}
+        open={loading} // Display loader based on the loading state
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 };
 

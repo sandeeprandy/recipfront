@@ -8,6 +8,8 @@ import {
   Button,
   MenuItem,
   IconButton,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import * as Yup from "yup";
@@ -28,6 +30,7 @@ const AddPostModal = ({ open, onClose }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const userinfo = JSON.parse(localStorage.getItem("userinfo"));
+  const [loading, setLoading] = useState(false);
 
   const {
     control,
@@ -59,7 +62,7 @@ const AddPostModal = ({ open, onClose }) => {
       formData.append("image", file);
       try {
         const response = await axios.post(
-          "https://api.imgbb.com/1/upload?key=135b0455e99f3ddb19ace9e9e588f5af",
+          "https://api.imgbb.com/1/upload?key=94f611bff437cbcdb160d17d5a97ec22",
           formData
         );
         setImageUrl(response.data.data.url);
@@ -77,31 +80,42 @@ const AddPostModal = ({ open, onClose }) => {
   };
   
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("postType", data.postType);
-    formData.append("ilaakaName", data.ilaakaName);
-    formData.append("pinCode", data.pinCode);
-    formData.append("description", data.description);
-    formData.append("image", imageUrl);
-    formData.append("price", data.price);
-    formData.append("phoneNumber", data.phoneNumber);
-    formData.append("firstName ", userinfo?.user[0][0]?.first_name);
-    formData.append("lastName", userinfo?.user[0][0]?.last_name);
-
+    setLoading(true)
+    const jsonData = {
+      postType: data.postType,
+      ilaakaName: data.ilaakaName,
+      pinCode: data.pinCode,
+      description: data.description,
+      image: imageUrl,
+      price: data.price,
+      phoneNumber: data.phoneNumber,
+      firstName: userinfo?.user[0][0]?.first_name,
+      lastName: userinfo?.user[0][0]?.last_name,
+    };
+  
     try {
       const response = await axios.post(
         "https://recipback.onrender.com/api/posts/addPost",
-        formData
+        jsonData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
+      setLoading(false)
       console.log("Post added successfully:", response.data);
       handleCancel();
     } catch (error) {
+      setLoading(false)
       console.error("Error adding post:", error);
     }
   };
+  
 
   return (
     <Modal open={open} onClose={handleCancel}>
+      <>
       <Box
         sx={{
           position: "absolute",
@@ -301,6 +315,17 @@ const AddPostModal = ({ open, onClose }) => {
           </Box>
         </form>
       </Box>
+      <Backdrop
+        sx={{
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          background: 'linear-gradient(135deg, skyblue, #4682B4)', // Sky blue to Dark Sky blue gradient
+        }}
+        open={loading} // Display loader based on the loading state
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      </>
     </Modal>
   );
 };
