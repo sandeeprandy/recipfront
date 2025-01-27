@@ -1,14 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchUserFeed } from "../services/userService";
+import { fetchUserFeed , followUser , likePost } from "../services/userService";
 
 export const getUserFeed = createAsyncThunk(
   "user/getUserFeed",
   async ({pincode, filter}) => {
-    console.log("Filter:", filter);
-    console.log("Filter:", pincode);
+   
     return await fetchUserFeed({pincode ,filter});
   }
 );
+
+export const following = createAsyncThunk(
+  "user/followers",
+  async ({friendId, userId, status}) => {
+   
+    return await followUser({friendId, userId, status});
+  }
+);
+export const postLikes = createAsyncThunk(
+  "user/whoLiked",
+  async ({postId, userId, status }) => {
+   
+    return await likePost({postId, userId, status });
+  }
+);
+
 
 
 

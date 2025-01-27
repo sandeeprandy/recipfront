@@ -28,6 +28,7 @@ const Home = () => {
 
   useEffect(() => {
     const postsContainer = postsContainerRef.current;
+   
 
     const handleScroll = () => {
       const currentScrollPos = postsContainer.scrollTop;
@@ -44,7 +45,7 @@ const Home = () => {
         postsContainer.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [lastScrollPos]);
+  }, [lastScrollPos ,postsContainerRef]);
 
   return (
     <Box

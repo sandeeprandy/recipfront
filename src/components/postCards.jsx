@@ -9,16 +9,19 @@ import Link from "@mui/joy/Link";
 import IconButton from "@mui/joy/IconButton";
 import Typography from "@mui/joy/Typography";
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import SendOutlined from "@mui/icons-material/SendOutlined";
 import WhatsApp from "@mui/icons-material/WhatsApp";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import { formatDistanceToNow } from "date-fns";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Button from "@mui/joy/Button";
 
 const InstagramPost = ({ data, onBack, isSinglePost ,onPostClick }) => {
   const [showMore] = useState(false);
   const createdAt = new Date(data.createdAt);
+  const userinfo = JSON.parse(localStorage.getItem("userinfo"));
 
 
   const handleWhatsAppClick = (phone) => () => {
@@ -66,9 +69,34 @@ const InstagramPost = ({ data, onBack, isSinglePost ,onPostClick }) => {
         <Typography sx={{ fontWeight: "lg" }}>
           {data.first_name} {data.last_name}
         </Typography>
-        <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: "auto" }}>
+        <IconButton
+      variant="plain"
+      color="neutral"
+      size="sm"
+      sx={{ ml: "auto" }}
+      // onClick={handleFollowToggle}
+    >
+     {false ? (
+        <IconButton
+          variant="plain"
+          color="neutral"
+          size="sm"
+          sx={{ ml: "auto" }}
+          // onClick={handleFollowToggle}
+        >
           <MoreHoriz />
         </IconButton>
+      ) : (
+        <Button
+          variant="outlined"
+          color="primary"
+          size="sm"
+          // onClick={handleFollowToggle}
+        >
+          Follow
+        </Button>
+      )}
+    </IconButton>
       </CardContent>
 
       <CardOverflow>
