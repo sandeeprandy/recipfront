@@ -63,7 +63,7 @@ const OmniaPage = () => {
               color="primary"
               sx={{ padding: '10px 20px', borderRadius: '25px', minWidth: '150px' }}
               component={Link}
-              to="/explore"
+              to="/login"
             >
               Explore Now
             </Button>

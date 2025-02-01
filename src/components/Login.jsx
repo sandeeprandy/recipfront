@@ -18,7 +18,7 @@ function Login({ onLoginSuccess }) {
     setLoading(true)
     try {
       const response = await axios.post(
-        "https://recipback.onrender.com/api/auth/login",
+        "https://recipback-medenew.vercel.app/api/auth/login",
         { email, password }
       );
       setLoading(false)

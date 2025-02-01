@@ -47,7 +47,7 @@ const RegisterPage = () => {
     setLoading(true)
     try {
       const response = await axios.post(
-        "https://recipback.onrender.com/api/auth/register",
+        "https://recipback-medenew.vercel.app/api/auth/register",
         data
       );
       setLoading(false)
