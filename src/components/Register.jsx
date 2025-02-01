@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Box, Button, Grid, TextField, Typography, Card, Backdrop, CircularProgress } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography, Card, Backdrop, CircularProgress, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import { useForm, Controller } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import AddLocationIcon from "@mui/icons-material/AddLocation";
 
 // Yup Validation Schema
 const schema = yup.object().shape({
@@ -29,19 +30,47 @@ const schema = yup.object().shape({
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match")
     .required("Confirm Password is required"),
-});
+});  
+
+ 
 
 const RegisterPage = () => {
-    const [loading, setLoading] = useState(false);
-  const {
-    control,
-    handleSubmit,
-   
-    setError,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+    const [loading, setLoading] = useState(false); 
+    const {
+      control,
+      handleSubmit,
+     
+      setError,
+      formState: { errors },
+    } = useForm({
+      resolver: yupResolver(schema),
+    });
+  
+  const [locationData, setLocationData] = useState({ ilaaka: "", pinCode: "" });
+  const [isLocationEnabled, setIsLocationEnabled] = useState(false); 
+
+  const fetchLocation = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=en`
+        );
+        const data = await response.json();
+        if (data) {
+          setLocationData({
+            ilaaka: data.address.village || data.address.area || data.address.suburb || "Unknown",
+            pinCode: data.address.postcode || "",
+          });
+          setIsLocationEnabled(true);
+        }
+      }, (error) => {
+        console.error("Geolocation error:", error);
+      });
+    }
+  };
+
+
 
   const handleRegister = async (data) => {
     setLoading(true)
@@ -96,14 +125,14 @@ const RegisterPage = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
       >
-        <Card
+        <Box
           sx={{
             maxWidth: { xs: "300px", sm: "600px" }, // 300px for mobile (xs), 600px for larger devices (sm and up)
             width: "80%",
       
             padding: 4,
             borderRadius: 3,
-            background: "rgba(255, 255, 255, 0.1)",
+            background: "white",
             boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
             backdropFilter: "blur(10px)",
             border: "1px solid rgba(255, 255, 255, 0.3)",
@@ -127,8 +156,7 @@ const RegisterPage = () => {
                       error={!!errors.firstName}
                       helperText={errors.firstName?.message}
                       variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
+                     
                     />
                   )}
                 />
@@ -146,8 +174,7 @@ const RegisterPage = () => {
                       error={!!errors.lastName}
                       helperText={errors.lastName?.message}
                       variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
+                     
                     />
                   )}
                 />
@@ -167,33 +194,11 @@ const RegisterPage = () => {
                       error={!!errors.email}
                       helperText={errors.email?.message}
                       variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
+                     
                     />
                   )}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Controller
-                  name="ilaaka"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Ilaaka"
-                      fullWidth
-                      error={!!errors.illaka}
-                      helperText={errors.illaka?.message}
-                      variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
-                    />
-                  )}
-                />
-              </Grid>
-
-              {/** Phone Number and Pin Code */}
               <Grid item xs={12} sm={6}>
                 <Controller
                   name="phoneNumber"
@@ -207,31 +212,70 @@ const RegisterPage = () => {
                       error={!!errors.phoneNumber}
                       helperText={errors.phoneNumber?.message}
                       variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
+                     
                     />
                   )}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Controller
-                  name="pinCode"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Pin Code"
-                      fullWidth
-                      error={!!errors.pinCode}
-                      helperText={errors.pinCode?.message}
-                      variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
-                    />
-                  )}
-                />
-              </Grid>
+              <Grid item xs={12}>
+        <Controller
+          name="ilaaka"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Ilaaka"
+              fullWidth
+              error={!!errors.ilaaka} // Corrected the typo here
+              helperText={errors.ilaaka?.message} // Corrected the typo here
+              disabled={!isLocationEnabled} // Disable field initially
+              variant="outlined"
+              value={locationData.ilaaka}
+              InputProps={{
+                endAdornment: (
+                  <IconButton 
+                    onClick={fetchLocation}
+                    sx={{
+                      backgroundColor: 'lightblue', // Background color
+                      '&:hover': {
+                        backgroundColor: 'lightgreen', // Hover effect
+                      },
+                      borderRadius: '50%', // Circular button
+                    }}
+                  >
+                    <AddLocationIcon />
+                  </IconButton>
+                ),
+              }}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <Controller
+          name="pinCode"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Pin Code"
+              fullWidth
+              error={!!errors.pinCode}
+              helperText={errors.pinCode?.message}
+              disabled={!isLocationEnabled} // Disable field initially
+              variant="outlined"
+              value={locationData.pinCode}
+            />
+          )}
+        />
+      </Grid>
+
+              {/** Phone Number and Pin Code */}
+             
+              
 
               {/** Password and Confirm Password */}
               <Grid item xs={12} sm={6}>
@@ -248,8 +292,7 @@ const RegisterPage = () => {
                       error={!!errors.password}
                       helperText={errors.password?.message}
                       variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
+                     
                     />
                   )}
                 />
@@ -268,8 +311,7 @@ const RegisterPage = () => {
                       error={!!errors.confirmPassword}
                       helperText={errors.confirmPassword?.message}
                       variant="outlined"
-                      InputProps={{ style: { color: "white" } }}
-                      InputLabelProps={{ style: { color: "white" } }}
+                     
                     />
                   )}
                 />
@@ -294,14 +336,14 @@ const RegisterPage = () => {
             >
               Register
             </Button>
-            <Typography variant="body2" sx={{ marginTop: 2 }}>
-              Already have an account?{" "}
+            <Typography variant="body2" sx={{ marginTop: 2 ,color:"black" }}>
+              Already have an account? 
               <Link to="/login" style={{ color: "#0ff5e2" }}>
-                Login
+                 Login
               </Link>
             </Typography>
           </Box>
-        </Card>
+        </Box>
       </motion.div>
     </Box>
     <Backdrop

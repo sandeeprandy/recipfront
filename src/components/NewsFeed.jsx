@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Skeleton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import InstagramPost from "./postCards";
 
 const Feeds = ({ feed, postsContainerRef, onPostClick }) => {
+  const skeletonArray = new Array(10).fill(null); // Create an array with 10 skeletons
   return (
     <Box
       ref={postsContainerRef}
@@ -49,9 +50,41 @@ const Feeds = ({ feed, postsContainerRef, onPostClick }) => {
             </Grid>
           ))
         ) : (
-          <Typography variant="body1" color="text.secondary" sx={{ m: 2 }}>
-            No posts available.
-          </Typography>
+          <Grid container spacing={2}>
+      {skeletonArray.map((_, index) => (
+        <Grid item xs={12} sm={6} md={3} key={index}>
+          {/* Card Wrapper with white background and padding */}
+          <Box
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: '8px', // Rounded corners
+              padding: 2,
+              boxShadow: 1, // Subtle shadow for card effect
+            }}
+          >
+            {/* Profile Section */}
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              {/* Profile Picture Skeleton */}
+              <Skeleton variant="circular" width={40} height={40} sx={{ mr: 1 }} />
+              <Skeleton variant="text" width="60%" />
+            </Box>
+
+            {/* Post Image Skeleton */}
+            <Skeleton variant="rectangular" width="100%" height={200} />
+
+            {/* Post Caption Skeleton */}
+            <Skeleton variant="text" width="60%" sx={{ mt: 1 }} />
+            <Skeleton variant="text" width="80%" sx={{ mt: 0.5 }} />
+
+            {/* Follow Button Skeleton */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <Skeleton variant="rectangular" width={80} height={30} />
+              <Skeleton variant="rectangular" width={80} height={30} />
+            </Box>
+          </Box>
+        </Grid>
+      ))}
+    </Grid>
         )}
       </Grid>
     </Box>
