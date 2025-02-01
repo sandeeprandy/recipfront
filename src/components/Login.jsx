@@ -26,6 +26,7 @@ function Login({ onLoginSuccess }) {
       onLoginSuccess();
       navigate("/home");
     } catch (error) {
+      
       setError("Invalid email or password.");
       setLoading(false)
     }
