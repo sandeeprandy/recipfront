@@ -95,7 +95,7 @@ const AddPostModal = ({ open, onClose }) => {
   
     try {
       const response = await axios.post(
-        "https://recipback-medenew.vercel.app/api/posts/addPost",
+        "https://recipback.vercel.app/api/posts/addPost",
         jsonData,
         {
           headers: {
