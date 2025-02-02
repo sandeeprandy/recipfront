@@ -1,14 +1,11 @@
 import axiosInstance from "../axiosInstance";
 
-export const fetchUserFeed = async ({pincode, filter,ilaaka}) => {
+export const fetchUserFeed = async ({ pincode, filter, ilaaka }) => {
   try {
-    
-   
-
     const validIlaakaName = typeof ilaakaName === "string" ? ilaaka : "";
 
     const url =
-      `/api/posts/getPosts?pinCode=${pincode}&filter=${filter}`+
+      `/api/posts/getPosts?pinCode=${pincode}&filter=${filter}` +
       (validIlaakaName
         ? `&ilaakaName=${encodeURIComponent(validIlaakaName)}`
         : "");

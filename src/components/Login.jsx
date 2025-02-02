@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Box, TextField, Button, Typography, useMediaQuery, Backdrop, CircularProgress } from "@mui/material";
+import { Box, TextField, Button, Typography, useMediaQuery, Backdrop, CircularProgress, Alert } from "@mui/material";
 import { useTheme } from "@mui/system";
 
 function Login({ onLoginSuccess }) {
@@ -24,6 +24,9 @@ function Login({ onLoginSuccess }) {
       setLoading(false)
       localStorage.setItem("userinfo", JSON.stringify(response.data));
       onLoginSuccess();
+       <Alert severity="success" sx={{ mt: 2, width: "100%" }}>
+            User Login successfully!
+          </Alert>
       navigate("/home");
     } catch (error) {
       
@@ -99,15 +102,28 @@ function Login({ onLoginSuccess }) {
       </motion.div>
     </Box>
     <Backdrop
-        sx={{
-          color: '#fff',
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          background: 'linear-gradient(135deg, skyblue, #4682B4)', // Sky blue to Dark Sky blue gradient
-        }}
-        open={loading} // Display loader based on the loading state
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+           sx={{
+             color: "#fff",
+             zIndex: (theme) => theme.zIndex.drawer + 1,
+             background: "linear-gradient(135deg, skyblue, #4682B4)",
+             display: "flex",
+             flexDirection: "column", // Stack elements vertically
+             justifyContent: "center",
+             alignItems: "center",
+             textAlign: "center",
+           }}
+           open={loading} // Display loader based on the loading state
+         >
+           <CircularProgress color="inherit" />
+           <Typography
+             variant="h6"
+             mt={2}
+             sx={{ maxWidth: "80%", fontStyle: "italic" }}
+           >
+             "You Have Nothing to Lose, Because Nothing is Yours." — Bhagavad
+             Gita
+           </Typography>
+         </Backdrop>
     </>
   );
 }
