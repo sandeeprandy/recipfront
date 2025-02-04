@@ -144,7 +144,7 @@ const RegisterPage = () => {
             fontSize: { xs: "0.775rem", sm: "1rem", md: "1.05rem" }, // Adjust font size for different screen sizes
           }}
         >
-          Create an account to become a member of Na Illaka site
+        Join the Omina community today
         </Typography>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -247,11 +247,11 @@ const RegisterPage = () => {
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        label="Ilaaka"
+                        label="village/area"
                         fullWidth
                         error={!!errors.ilaaka} // Corrected the typo here
                         helperText={errors.ilaaka?.message} // Corrected the typo here
-                        disabled={!isLocationEnabled} // Disable field initially
+                        // disabled={!isLocationEnabled} // Disable field initially
                         variant="outlined"
                         value={locationData.ilaaka}
                         InputProps={{
@@ -259,7 +259,7 @@ const RegisterPage = () => {
                             <IconButton
                               onClick={fetchLocation}
                               sx={{
-                                backgroundColor: "blue", // Background color
+                                backgroundColor: "skyblue", // Background color
                                 "&:hover": {
                                   backgroundColor: "lightgreen", // Hover effect
                                 },
@@ -287,7 +287,7 @@ const RegisterPage = () => {
                         fullWidth
                         error={!!errors.pinCode}
                         helperText={errors.pinCode?.message}
-                        disabled={!isLocationEnabled} // Disable field initially
+                        // disabled={!isLocationEnabled} // Disable field initially
                         variant="outlined"
                         value={locationData.pinCode}
                       />

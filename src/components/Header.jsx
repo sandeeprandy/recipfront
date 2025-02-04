@@ -15,7 +15,7 @@ import { getUserFeed } from "../slices/userSlices";
 import { useDispatch } from "react-redux";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-const Header = () => {
+const Header = ({ isaddpostModalOpen }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [profileModel, setProfileModel] = useState(null);
   const userinfo = JSON.parse(localStorage.getItem("userinfo"));
@@ -48,8 +48,7 @@ const Header = () => {
   useEffect(() => {
     const requestData = { pincode: userPincode, filter };
     dispatch(getUserFeed(requestData));
-  }, [dispatch, userPincode, filter]);
-
+  }, [dispatch, userPincode, filter, isaddpostModalOpen]);
 
   const handleMenuProfileClose = () => {
     setProfileModel(null);
@@ -72,12 +71,15 @@ const Header = () => {
             noWrap
             sx={{
               flexGrow: 1,
-              fontFamily: 'Arial',// Replace with the actual font family name
+              fontFamily: "Arial", // Replace with the actual font family name
               fontWeight: "bold",
               letterSpacing: "0.5px",
               color: "#FFFFFF",
             }}
-          > Omnia</Typography>
+          >
+            {" "}
+            Omnia
+          </Typography>
 
           {/* <Tooltip title="Add Post">
             <IconButton color="inherit" sx={{ ml: 1 }} onClick={handleModalOpen}>

@@ -28,7 +28,6 @@ const Home = () => {
 
   useEffect(() => {
     const postsContainer = postsContainerRef.current;
-   
 
     const handleScroll = () => {
       const currentScrollPos = postsContainer.scrollTop;
@@ -45,17 +44,17 @@ const Home = () => {
         postsContainer.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [lastScrollPos ,postsContainerRef]);
+  }, [lastScrollPos, postsContainerRef]);
 
   return (
     <Box
       sx={{
         color: "#fff",
         background: "linear-gradient(135deg, skyblue, #4682B4)",
-        height:"100vh" // Sky blue to Dark Sky blue gradient
+        height: "100vh", // Sky blue to Dark Sky blue gradient
       }}
     >
-      <Header />
+      <Header isaddpostModalOpen={isModalOpen} />
       {/* If a post is selected, show the PostDetails component */}
       {selectedPost ? (
         <InstagramPost

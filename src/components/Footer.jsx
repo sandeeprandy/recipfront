@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Button } from "@mui/material";
+import { Box, IconButton, Fab } from "@mui/material";
+import { Add, Notifications, AccountCircle } from "@mui/icons-material";
 
 const Footer = ({ onClick, showHeaderFooter }) => {
   return (
@@ -7,21 +8,39 @@ const Footer = ({ onClick, showHeaderFooter }) => {
       sx={{
         position: "fixed",
         bottom: 0,
-        overflow: "hidden",
         left: 0,
         right: 0,
-        height: "64px",
-        color: "#fff",
+        height: "30px",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-around",
+        backgroundColor: "black",
+        boxShadow: "0 -2px 10px rgba(0,0,0,0.1)",
         transition: "transform 0.3s ease",
         transform: showHeaderFooter ? "translateY(0)" : "translateY(100%)",
+        padding: "5px 0",
       }}
     >
-      <Button variant="contained" onClick={onClick}>
-        Add Post
-      </Button>
+      <IconButton color="primary" sx={{color: "#87CEEB"}}>
+        <AccountCircle fontSize="large" />
+      </IconButton>
+
+      <Fab 
+        color="primary" 
+        onClick={onClick} 
+        sx={{
+          position: "absolute", 
+          backgroundColor: "#87CEEB",
+          top: "-25px", 
+          zIndex: 10
+        }}
+      >
+        <Add />
+      </Fab>
+
+      <IconButton color="primary"sx={{color: "#87CEEB"}}>
+        <Notifications fontSize="large" />
+      </IconButton>
     </Box>
   );
 };
