@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, IconButton, Fab } from "@mui/material";
 import { Add, Notifications, AccountCircle } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const Footer = ({ onClick, showHeaderFooter }) => {
   return (
@@ -21,8 +22,8 @@ const Footer = ({ onClick, showHeaderFooter }) => {
         padding: "5px 0",
       }}
     >
-      <IconButton color="primary" sx={{color: "#87CEEB"}}>
-        <AccountCircle fontSize="large" />
+      <IconButton  >
+      <Link to="/Profile"> <AccountCircle fontSize="large" sx={{color: "#87CEEB"}} /></Link>  
       </IconButton>
 
       <Fab 

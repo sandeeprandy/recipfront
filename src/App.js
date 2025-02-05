@@ -4,16 +4,16 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import LandingPage from "./components/LandingPage";
+import ProfilePage from "./components/Profile"; // Import ProfilePage
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Added loading state
+  const [isLoading, setIsLoading] = useState(true); 
 
   const checkAuth = () => {
     const token = localStorage.getItem("userinfo");
-
     setIsAuthenticated(!!token);
-    setIsLoading(false); // Set loading to false after checking authentication
+    setIsLoading(false); 
   };
 
   useEffect(() => {
@@ -22,7 +22,6 @@ function App() {
 
   const ProtectedRoute = ({ element }) => {
     if (isLoading) {
-      // Show a loading indicator while checking authentication
       return <div>Loading...</div>;
     }
     return isAuthenticated ? element : <Navigate to="/login" />;
@@ -33,8 +32,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login"  element={<Login onLoginSuccess={checkAuth} />}   />
+        <Route path="/login" element={<Login onLoginSuccess={checkAuth} />} />
         <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
+        <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} /> 
       </Routes>
     </Router>
   );
