@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, Typography, Avatar, Grid, Box } from "@mui/material";
+import { getUserDeatils } from "../slices/userSlices";
+import { useDispatch } from "react-redux";
 
 
-const ProfilePage = () => {
+const ProfilePage = ({userId=1 } ) => {
  
   const userinfo = JSON.parse(localStorage.getItem("userinfo"));
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+   
+    dispatch(getUserDeatils(userId));
+  }, [dispatch ]);
+  
 
   return (
     <Box

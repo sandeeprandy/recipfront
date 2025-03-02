@@ -18,8 +18,10 @@ export const fetchUserFeed = async ({ pincode, filter, ilaaka }) => {
   }
 };
 
-export const fetchUserProfile = async () => {
-  const response = await axiosInstance.get("/api/user/profile");
+export const fetchUserProfile = async (userId) => {
+  const response = await axiosInstance.get("/api/user/profile" , {
+    userId
+  });
   return response.data;
 };
 

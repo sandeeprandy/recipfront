@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchUserFeed , followUser , likePost } from "../services/userService";
+import { fetchUserFeed , followUser , likePost ,fetchUserProfile } from "../services/userService";
 
 export const getUserFeed = createAsyncThunk(
   "user/getUserFeed",
@@ -23,6 +23,13 @@ export const postLikes = createAsyncThunk(
     return await likePost({postId, userId, status });
   }
 );
+
+export const getUserDeatils = createAsyncThunk (
+  "user/userDetails" , 
+  async ({userId}) => {
+    return await fetchUserProfile({userId})
+  }
+)
 
 
 
